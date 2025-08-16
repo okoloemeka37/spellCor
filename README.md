@@ -1,0 +1,2 @@
+# spellCor
+
