@@ -36,7 +36,7 @@ words.forEach((wrd,i) => {
   if (!spell.correct(textPart)) {
    const dpl= spell.suggest(textPart);
    if (dpl.length !==0) {
-      words[i]=dpl[0]
+      words[i]=dpl[0] +wrd.substring(numIndex)
    }
   }
 });
