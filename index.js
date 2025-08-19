@@ -17,13 +17,16 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (req.method === "POST" && req.url === "/spellcheck") {
+      console.log("Incoming request to /spellcheck");
     let body = "";
     req.on("data", chunk => {
+       console.log("Receiving chunk:", chunk.toString());
       body += chunk.toString();
     });
 
     req.on("end", async () => {
       try {
+          console.log("Request body:", body);
         const { raw } = JSON.parse(body);
 
 const dic = `${druglist.length}\n${druglist.join("\n")}`;
