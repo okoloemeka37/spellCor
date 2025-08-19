@@ -24,25 +24,23 @@ const server = http.createServer(async (req, res) => {
 
     req.on("end", async () => {
       try {
-        const { words } = JSON.parse(body);
+        const { raw } = JSON.parse(body);
 
 const dic = `${druglist.length}\n${druglist.join("\n")}`;
 const aff = `SET UTF-8\nTRY:abcdefghijklmnopqrstuvwxyz`;
 const spell=nSpell(aff, dic);
 
-words.forEach((wrd,i) => {
-  const numIndex=wrd.search(/[0-9]/);
-  let textPart = wrd.substring(0, numIndex);
-  if (!spell.correct(textPart)) {
-   const dpl= spell.suggest(textPart);
+raw.forEach((wrd,i) => {
+  if (!spell.correct(wrd)) {
+   const dpl= spell.suggest(wrd);
    if (dpl.length !==0) {
-      words[i]=dpl[0] +wrd.substring(numIndex)
+      raw[i]=dpl[0];
    }
   }
-});
+}); 
 
   res.writeHead(200, { "Content-Type": "application/json" });
-       res.end(JSON.stringify({corrected:words}));
+       res.end(JSON.stringify({corrected:raw}));
       } catch (err) {
         res.writeHead(500, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ error: err.message }));
